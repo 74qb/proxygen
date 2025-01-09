@@ -22,7 +22,11 @@ set(CMAKE_MODULE_PATH
   # For shipit-transformed builds
   "${CMAKE_CURRENT_SOURCE_DIR}/build/fbcode_builder/CMake"
   ${CMAKE_MODULE_PATH})
-
+  
+option(HTTP3_SUPPORT 
+ "If enabled mvfst will be needed" 
+ OFF)
+ 
 option(BUILD_SHARED_LIBS
   "If enabled, build proxygen as a shared library.  \
   This is generally discouraged, since proxygen does not commit to having \

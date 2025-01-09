@@ -68,7 +68,8 @@ add_custom_target(
         ${PROXYGEN_GENERATED_ROOT}/proxygen/lib/utils/TraceFieldType.cpp
         ${PROXYGEN_GENERATED_ROOT}/proxygen/lib/stats/StatsWrapper.h
 )
-
+if (HTTP3_SUPPORT) 
+add_compile_definitions(HTTP3_SUPPORT)
 set(
     HTTP3_SOURCES
     ${HTTP3_SOURCES}
@@ -91,6 +92,8 @@ set(
     transport/PersistentQuicPskCache.cpp
     transport/PersistentQuicTokenCache.cpp
 )
+
+
 set(
   HTTP3_DEPEND_LIBS
   ${HTTP3_DEPEND_LIBS}
@@ -101,6 +104,14 @@ set(
   mvfst::mvfst_codec_types
   mvfst::mvfst_state_machine
 )
+else()
+set(
+    HTTP3_SOURCES ""
+)
+set(
+  HTTP3_DEPEND_LIBS ""
+)
+endif()
 
 add_library(
     proxygen
@@ -256,6 +267,8 @@ target_link_libraries(
     ZLIB::ZLIB
     ${HTTP3_DEPEND_LIBS}
 )
+
+
 
 # Install the headers, excluding unit testing related headers
 file(
