@@ -9,13 +9,22 @@ add_library(
     http_parser/http_parser_cpp.cpp
 )
 
+
+if (MSVC)
+target_compile_options(
+    proxygen_http_parser PRIVATE
+    ${_PROXYGEN_COMMON_COMPILE_OPTIONS}
+    "-DHTTP_PARSER_STRICT_URL=1"
+)
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+else()
 target_compile_options(
     proxygen_http_parser PRIVATE
     ${_PROXYGEN_COMMON_COMPILE_OPTIONS}
     "-DHTTP_PARSER_STRICT_URL=1"
     "-Wno-implicit-fallthrough"
-)
-
+	)
+endif()
 if (BUILD_SHARED_LIBS)
   set_property(TARGET proxygen_http_parser PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()

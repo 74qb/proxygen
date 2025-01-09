@@ -75,13 +75,12 @@ endif()
 #
 # IMPORTANT: If you change this, make the analogous update in:
 #   cmake/proxygen-config.cmake.in
-find_package(fmt REQUIRED)
-find_package(folly REQUIRED)
-find_package(wangle REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(folly CONFIG REQUIRED)
 find_package(wangle CONFIG REQUIRED)
+if(HTTP3_SUPPORT)
 find_package(mvfst CONFIG REQUIRED)
+endif()
 find_package(zstd CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -97,14 +96,32 @@ find_package(Boost 1.58 REQUIRED
     thread
     chrono
 )
-
-list(APPEND
+# Set warning flags based on the compiler
+if (MSVC)
+	add_compile_options(/W0)
+    list(APPEND
+    _PROXYGEN_COMMON_COMPILE_OPTIONS
+    /W4
+	)
+	# Disable specific warnings
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4100) # Unused parameter
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4127) # Conditional expression is constant
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4324) # Structure was padded due to alignment specifier
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4514) # Unreferenced inline function has been removed
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4625) # Copy constructor was implicitly defined as deleted
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4626) # Assignment operator was implicitly defined as deleted
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4710) # Function not inlined
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4711) # Function selected for automatic inline expansion
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4820) # Padding added after data member
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd5026) # Move constructor was implicitly defined as deleted
+    list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd5027) # Move assignment operator was implicitly defined as deleted
+else()
+    list(APPEND
     _PROXYGEN_COMMON_COMPILE_OPTIONS
     -Wall
     -Wextra
-)
-
-CHECK_CXX_COMPILER_FLAG(-Wnoexcept-type COMPILER_HAS_W_NOEXCEPT_TYPE)
+	)
+	CHECK_CXX_COMPILER_FLAG(-Wnoexcept-type COMPILER_HAS_W_NOEXCEPT_TYPE)
 if (COMPILER_HAS_W_NOEXCEPT_TYPE)
   list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS -Wno-noexcept-type)
 endif()
@@ -132,6 +149,10 @@ CHECK_CXX_COMPILER_FLAG(-Wunused-value COMPILER_HAS_W_UNUSED_VALUE)
 if (COMPILER_HAS_W_UNUSED_VALUE)
     list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS -Wno-unused-value)
 endif()
+	endif()
+
+
+
 
 SET(GFLAG_DEPENDENCIES "")
 SET(PROXYGEN_EXTRA_LINK_LIBRARIES "")
