@@ -250,10 +250,10 @@ target_link_libraries(
     Folly::folly
     fizz::fizz
     wangle::wangle
-    zstd
+    $<IF:$<TARGET_EXISTS:zstd::libzstd_shared>,zstd::libzstd_shared,zstd::libzstd_static>
     Boost::boost
     Boost::iostreams
-    -lz
+    ZLIB::ZLIB
     ${HTTP3_DEPEND_LIBS}
 )
 
