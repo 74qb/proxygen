@@ -224,6 +224,8 @@ if (BUILD_SAMPLES)
       PRIVATE
           ${_PROXYGEN_COMMON_COMPILE_OPTIONS}
   )
+
+if (HTTP3_SUPPORT) 
   target_link_libraries(
       hq
       PUBLIC
@@ -233,10 +235,22 @@ if (BUILD_SAMPLES)
           proxygenhttpserver
           proxygenhqloggerhelper
           proxygendeviousbaton
-          mvfst::mvfst_transport
+		  mvfst::mvfst_transport
           mvfst::mvfst_client
           mvfst::mvfst_server
   )
+else()
+  target_link_libraries(
+      hq
+      PUBLIC
+          fizz::fizz
+          proxygen
+          proxygencurl
+          proxygenhttpserver
+          proxygenhqloggerhelper
+          proxygendeviousbaton
+  )
+endif()
   install(
       TARGETS hq
       EXPORT proxygen-exports
