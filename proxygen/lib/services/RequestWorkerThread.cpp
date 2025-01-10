@@ -52,22 +52,22 @@ void RequestWorkerThread::flushStats() {
 
 void RequestWorkerThread::setup() {
   CHECK(evb_);
-  evb_->runImmediatelyOrRunInEventBaseThreadAndWait([&]() {
-    sigset_t ss;
+  evb_->runImmediatelyOrRunInEventBaseThreadAndWait([this]() {
+    //sigset_t ss;
 
-    // Ignore some signals
-    sigemptyset(&ss);
-    sigaddset(&ss, SIGHUP);
-    sigaddset(&ss, SIGINT);
-    sigaddset(&ss, SIGQUIT);
-    sigaddset(&ss, SIGUSR1);
-    sigaddset(&ss, SIGUSR2);
-    sigaddset(&ss, SIGPIPE);
-    sigaddset(&ss, SIGALRM);
-    sigaddset(&ss, SIGTERM);
-    sigaddset(&ss, SIGCHLD);
-    sigaddset(&ss, SIGIO);
-    PCHECK(pthread_sigmask(SIG_BLOCK, &ss, nullptr) == 0);
+    //// Ignore some signals
+    //sigemptyset(&ss);
+    //sigaddset(&ss, SIGHUP);
+    //sigaddset(&ss, SIGINT);
+    //sigaddset(&ss, SIGQUIT);
+    //sigaddset(&ss, SIGUSR1);
+    //sigaddset(&ss, SIGUSR2);
+    //sigaddset(&ss, SIGPIPE);
+    //sigaddset(&ss, SIGALRM);
+    //sigaddset(&ss, SIGTERM);
+    //sigaddset(&ss, SIGCHLD);
+    //sigaddset(&ss, SIGIO);
+    //PCHECK(pthread_sigmask(SIG_BLOCK, &ss, nullptr) == 0);
 
     currentRequestWorker_ = this;
     callback_.workerStarted(this);
