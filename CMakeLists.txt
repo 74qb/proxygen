@@ -10,8 +10,8 @@ include(CheckCXXCompilerFlag)
 project(
     proxygen
 )
-
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_COMPUTED_DEFAULT 20)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -98,11 +98,7 @@ find_package(Boost 1.58 REQUIRED
 )
 # Set warning flags based on the compiler
 if (MSVC)
-	add_compile_options(/W0)
-    list(APPEND
-    _PROXYGEN_COMMON_COMPILE_OPTIONS
-    /W4
-	)
+	add_compile_options(/W1)
 	# Disable specific warnings
     list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4100) # Unused parameter
     list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4127) # Conditional expression is constant
@@ -115,6 +111,7 @@ if (MSVC)
     list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd4820) # Padding added after data member
     list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd5026) # Move constructor was implicitly defined as deleted
     list(APPEND _PROXYGEN_COMMON_COMPILE_OPTIONS /wd5027) # Move assignment operator was implicitly defined as deleted
+
 else()
     list(APPEND
     _PROXYGEN_COMMON_COMPILE_OPTIONS

@@ -1,0 +1,27 @@
+folly  b7954d2ef5c87b4583ae408cefb421baa7be804a
+wangle 346e1ffd4cc31b2ca11c47e8cf4141eef81f4ac4
+fizz c82fdf59ad20c874f31366754da47bde9c4c684d
+
+curl -L https://github.com/facebook/wangle/archive/346e1ffd4cc31b2ca11c47e8cf4141eef81f4ac4.tar.gz -o wangle.tar.gz
+
+6b5e343094ea21dee26a9a55c8499119a04fa2805f7e80c4559afbe3b753733cb98d6dbb15c3b62d5749bf2dc02c44aea9e34ae8aac3a381f6b154f484868992
+
+certutil -hashfile "wangle.tar.gz" SHA512
+
+
+curl -L https://github.com/facebook/folly/archive/b7954d2ef5c87b4583ae408cefb421baa7be804a.tar.gz -o folly.tar.gz
+
+certutil -hashfile "folly.tar.gz" SHA512
+2ab289109ed3662114808751bcce108bcd6b6e74e44d0aa2fd3cb106af2c8e2b1f27fba54afc5b193e15a8e50e5665a66d15b4b2c1bb0062861b628b73ba1517
+
+
+export VCPKG_OVERLAY_PORTS=/path/to/custom-ports
+
+
+curl -L https://github.com/facebookincubator/fizz/archive/c82fdf59ad20c874f31366754da47bde9c4c684d.tar.gz -o fizz.tar.gz
+
+
+certutil -hashfile "fizz.tar.gz" SHA512
+
+
+3c5bca14c4bcfd75903c1b18cdddcd773542abbb8eb5168ef3b187a5be41cc98ac26e60f2fb1d799bbc43ade72b61f4ee807dc9263ff1423759c0bcb8b22e27b
