@@ -35,7 +35,7 @@ option(BUILD_SHARED_LIBS
 )
 option(BUILD_SAMPLES
   "If enabled, proxygen will build various examples/samples"
-  ON
+  OFF
 )
 # Mark BUILD_SHARED_LIBS as an "advanced" option, since enabling it
 # is generally discouraged.
